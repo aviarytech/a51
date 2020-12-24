@@ -39,25 +39,3 @@ export const genKey = async (
   }
   return genKey(target, keyGenMethod, workMethod);
 };
-
-// import { genKey, genEd25519, didKey } from "@aviarytech/a51";
-// import fs from "fs";
-
-const runLoop = async () => {
-  var myArgs = process.argv.slice(1);
-
-  const target = myArgs[1] || "A";
-  console.log(`starting with target ${target}`);
-  const output = await genKey(target, genEd25519, didKey);
-  console.log(output);
-
-  // fs.appendFile(`${target}.json`, JSON.stringify(output), function (err) {
-  //   if (err) throw err;
-  //   console.log("key added!");
-  //   runLoop();
-  // });
-};
-
-(async () => {
-  runLoop();
-})();
