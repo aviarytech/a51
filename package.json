@@ -1,11 +1,10 @@
 {
   "name": "@aviarytech/a51",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Proof of work or vanity hash/address/did generator library",
   "main": "dist/index.js",
   "author": "Aviary Technologies Inc.",
   "license": "ISC",
-  "type": "module",
   "publishConfig": {
     "access": "public"
   },
