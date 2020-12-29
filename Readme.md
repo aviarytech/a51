@@ -10,6 +10,7 @@ the target is the leading characters in the vanity key/hash
 
 - genEd25519 => Generates an Ed25519 keypair
 - genBls12381 => Generates a Bls12381 G2 keypair
+- random => Generates a random value not suitable as a keypair
 
 ## work methods
 
