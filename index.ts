@@ -1,16 +1,16 @@
 import * as ed25519 from "@stablelib/ed25519";
 import { Bls12381G2KeyPair } from "@mattrglobal/bls12381-key-pair";
 import { hash } from "@stablelib/sha256";
-import b58 from "b58";
+import bs58 from "bs58";
 import crypto from "crypto";
 
 /* work methods */
 export const didSov = (target: string, pubKey: Uint8Array): boolean => {
-  const keyStr = b58.encode(pubKey.slice(16));
+  const keyStr = bs58.encode(pubKey.slice(16));
   return keyStr.substr(0, target.length) === target;
 };
 export const didKey = (target: string, pubKey: Uint8Array): boolean => {
-  const keyStr = b58.encode(pubKey);
+  const keyStr = bs58.encode(pubKey);
   return keyStr.substr(0, target.length) === target;
 };
 export const sha256Hash = (target: string, pubKey: Uint8Array): boolean => {
@@ -44,9 +44,9 @@ export const genKey = async (
   const key = await keyGenMethod();
   if (workMethod(target, key.pub)) {
     return {
-      priv: b58.encode(key.priv),
+      priv: bs58.encode(key.priv),
       privHash: Buffer.from(hash(key.priv)).toString("hex"),
-      pub: b58.encode(key.pub),
+      pub: bs58.encode(key.pub),
       pubHash: Buffer.from(hash(key.pub)).toString("hex"),
     };
   }
