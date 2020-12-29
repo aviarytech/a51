@@ -17,6 +17,7 @@ the target is the leading characters in the vanity key/hash
 - didSov => Creates a vanity did:sov
 - didKey => Creates a vanity did:key
 - sha256Hash => Creates a vanity hash of the public key
+- noWork => Always returns true - used for regular key generation
 
 ### Example
 

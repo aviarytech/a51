@@ -5,9 +5,21 @@ import b58 from "b58";
 import crypto from "crypto";
 
 /* work methods */
-export const didSov = (pubKey: Uint8Array): string => b58.encode(pubKey.slice(16));
-export const didKey = (pubKey: Uint8Array): string => b58.encode(pubKey);
-export const sha256Hash = (pubKey: Uint8Array): string => Buffer.from(hash(pubKey)).toString("hex");
+export const didSov = (target: string, pubKey: Uint8Array): boolean => {
+  const keyStr = b58.encode(pubKey.slice(16));
+  return keyStr.substr(0, target.length) === target;
+};
+export const didKey = (target: string, pubKey: Uint8Array): boolean => {
+  const keyStr = b58.encode(pubKey);
+  return keyStr.substr(0, target.length) === target;
+};
+export const sha256Hash = (target: string, pubKey: Uint8Array): boolean => {
+  const keyStr = Buffer.from(hash(pubKey)).toString("hex");
+  return keyStr.substr(0, target.length) === target;
+};
+export const noWork = (target: string, pubKey: Uint8Array): boolean => {
+  return true;
+};
 
 /* key methods */
 export const genEd25519 = async (): Promise<{ priv: Uint8Array; pub: Uint8Array }> => {
@@ -27,10 +39,10 @@ export const random = async (): Promise<{ priv: Uint8Array; pub: Uint8Array }> =
 export const genKey = async (
   target: string,
   keyGenMethod: () => Promise<{ priv: Uint8Array; pub: Uint8Array }> = genEd25519,
-  workMethod: (pubKey: Uint8Array) => string = sha256Hash
+  workMethod: (target: string, pubKey: Uint8Array) => boolean = sha256Hash
 ): Promise<{ priv: string; privHash: string; pub: string; pubHash: string }> => {
   const key = await keyGenMethod();
-  if (workMethod(key.pub).substr(0, target.length) === target) {
+  if (workMethod(target, key.pub)) {
     return {
       priv: b58.encode(key.priv),
       privHash: Buffer.from(hash(key.priv)).toString("hex"),
